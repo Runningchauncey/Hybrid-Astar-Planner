@@ -1,0 +1,6 @@
+image: ./parking2.pgm
+resolution: 0.1000
+origin: [-3.000000, 2.000000, -1.570000]
+negate: 0
+occupied_thresh: 0.68
+free_thresh: 0.2

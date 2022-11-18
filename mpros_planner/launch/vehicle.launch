@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="vehicle" default="flexcar" />
+
+    <!-- load map in rviz -->
+    <arg name="map_file" default="$(find mpros_planner)/map/reverse_parking.yaml" />
+
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)" />
+
+    <!-- load params for navigation map, planner -->
+    <arg name="vehicle_param_file" default="$(find mpros_planner)/config/vehicle_config.yaml"/>
+    <arg name="planner_param_file" default="$(find mpros_planner)/config/planner_config.yaml"/>
+    <arg name="smoother_param_file" default="$(find mpros_planner)/config/smoother_config.yaml"/>
+
+    <rosparam file="$(arg vehicle_param_file)" command="load" ns="" />
+    <rosparam file="$(arg planner_param_file)" command="load" ns="" />
+    <rosparam file="$(arg smoother_param_file)" command="load" ns="" />
+    <rosparam file="$(arg map_file)" command="load" ns="mpros/map" />
+
+
+    <!-- add a transform between map and world -->
+    <node pkg="tf" type="static_transform_publisher" name="map_tf" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 /world /map 100" />
+
+
+    <!--load joint controller configurations from YAML file to parameter server-->
+    <rosparam file="$(find vehicle_control)/config/model_control.yaml" command="load" />
+    <group if="$(eval arg('vehicle')=='flexcar')">
+        <!-- load ackermann vehicle model in gazebo and rviz -->
+        <include file="$(find vehicle_description)/launch/vehicle_description.launch">
+            <arg name="x" value="0.0" />
+            <arg name="y" value="0.0" />
+            <arg name="z" value="0.0" />
+            <arg name="Yaw" value="0.0" />
+            <arg name="vehicle" default="$(arg vehicle)"/>
+        </include>
+        <!--load the controllers for flexcar-->
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" ns="/vehiclemodel" output="screen" args="joint_state_controller 
+            front_right_wheel_velocity_controller
+            front_left_wheel_velocity_controller
+            rear_right_wheel_velocity_controller
+            rear_left_wheel_velocity_controller
+            front_left_steering_position_controller
+            front_right_steering_position_controller
+            rear_left_steering_position_controller
+            rear_right_steering_position_controller" />
+    </group>
+    
+    <group unless="$(eval arg('vehicle')=='flexcar')">
+        <!--load ackermann vehicle model in gazebo and rviz-->
+        <include file="$(find vehicle_description)/launch/vehicle_description.launch">
+            <arg name="x" value="11.0" />
+            <arg name="y" value="165.0" />
+            <arg name="z" value="1.0" />
+            <arg name="Yaw" value="-1.57" />
+            <arg name="vehicle" default="$(arg vehicle)"/>
+        </include>
+        <!--load the controllers-->
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" ns="/vehiclemodel" output="screen" args="joint_state_controller 
+                right_back_wheel_velocity_controller
+                left_back_wheel_velocity_controller
+                left_steering_position_controller
+                right_steering_position_controller" />
+    </group>
+
+
+    <!--convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
+        <remap from="/joint_states" to="/vehiclemodel/joint_states" />
+    </node>
+
+    <!--load control relevant nodes-->
+    <node name="pose_pub" pkg="vehicle_control" type="pose_pub" respawn="true" output="screen" />
+    <node name="cmdvel_pub" pkg="vehicle_control" type="cmdvel_pub" respawn="true" output="screen" />
+    <node name="tf_pub" pkg="vehicle_control" type="tf_pub" respawn="true" output="screen" />
+
+    <!--load path relevant nodes-->
+    <!-- <node name="waypoints_pub" pkg="vehicle_control" type="waypoint_load"/> -->
+    <node name="odom_pub" pkg="vehicle_control" type="odom_pub" />
+
+</launch>

@@ -1,0 +1,46 @@
+mpros:
+  planner:
+    # common
+    optimal_path: false
+    interpolation_enable: true # if interpolate the path
+    step_size: 2.0 # search step size, has to be a bit larger than downsampled grid size
+    max_iteration: 100000 #
+    # for hybrid a star planner
+    # gear_penalty: 10.0 # penalty on change direction
+    # reverse_penalty: 5.0 # penalty on reversely driving
+    # steering_penalty: 0.0 # penalty on any steering angle
+    # steering_change_penalty: 10.0 # penalty on changing steering angle
+    # analytic_solution_range: 10.0 # range to start to looking for analytic solution - RS path
+    # yaw_discretization: 72 # number of discrete yaw values
+    # path_point_distance: 0.5 # path point distance, relevant for generating path
+    # steering_dsicretization: 5 # number of steering angle, has to be odd number due to 0 steering
+
+    gear_penalty: 10.0 # penalty on change direction
+    reverse_penalty: 10.0 # penalty on reversely driving
+    steering_penalty: 0.5 # penalty on any steering angle
+    steering_change_penalty: 0.5 # penalty on changing steering angle
+    analytic_solution_range: 10.0 # range to start to looking for analytic solution - RS path
+    yaw_discretization: 36 # number of discrete yaw values
+    path_point_distance: 0.1 # path point distance, relevant for generating path
+    steering_dsicretization: 5 # number of steering angle, has to be odd number due to 0 steering
+
+    # gear_penalty: 10.0 # penalty on change direction
+    # reverse_penalty: 0.0 # penalty on reversely driving
+    # steering_penalty: 0.1 # penalty on any steering angle
+    # steering_change_penalty: 10.0 # penalty on changing steering angle
+
+  map:
+    # downsampling_factor: 2 # map downsampling factor, suggest to set so as downsampled grid size ~ 1
+    downsampling_factor: 1 # map downsampling factor, suggest to set so as downsampled grid size ~ 1
+    obstacle_inflation_radius: 1.0 # inflation radius of obstacles, no smaller than half of vehicle width
+
+  profile:
+    debug: false
+    jerk_limit: 0.5 # maximum jerk in [m/s/s/s]
+    longitudinal_acc_limit: 1.0 # maximum longitudinal acceleration in [m/s/s]
+    lateral_acc_limit: 0.5 # maximum lateral acceleration in [m/s/s]
+    velocity_limit: 5.0 # maximum velocity in [m/s]
+    time_step: 0.1 # time step to interpolate trajectory
+    start_time: 0.0 # time at start point
+    start_speed: 0.0 # velocity at the start point
+    end_speed: 0.0 # velocity at the goal point

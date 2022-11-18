@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="vehicle" default="flexcar" />
+
+    <!-- select test case -->
+    <!-- 0: reverse parking
+         1: parallel parking
+         2: cases to be done -->
+    <arg name="case" default="0" />
+
+    <arg name="map_file" default="$(find mpros_planner)/map/reverse_parking.yaml" if="$(eval arg('case')==0)" />
+
+    <arg name="map_file" value="$(find mpros_planner)/map/parallel_parking3.yaml" if="$(eval arg('case')==1)" />
+
+    <arg name="map_file" value="$(find mpros_planner)/map/ARENA_part.yaml" if="$(eval arg('case')==2)" />
+
+    <arg name="map_file" value="$(find mpros_planner)/map/Arena2036.yaml" if="$(eval arg('case')==3)" />
+
+    <arg name="map_file" value="$(find mpros_planner)/map/map_slalom.yaml" if="$(eval arg('case')==4)" />
+
+    <arg name="map_file" value="$(find mpros_planner)/map/parking4.yaml" if="$(eval arg('case')==5)" />
+
+    <!-- load corresponding goal point -->
+    <group if="$(eval arg('case')==0)">
+        <!-- goal point -->
+        <rosparam param="goal_pt">[11.5, 2.1, 1.57]</rosparam>
+    </group>
+
+    <!-- parallel parking scenario -->
+    <group if="$(eval arg('case')==1)">
+        <!-- goal point -->
+        <rosparam param="goal_pt">[10.7, 4.0, 0.0]</rosparam>
+    </group>
+
+    <!-- part of ARENA -->
+    <group if="$(eval arg('case')==2)">
+        <!-- goal point -->
+    </group>
+
+    <!-- whole map of ARENA -->
+    <group if="$(eval arg('case')==3)">
+        <!-- goal point -->
+    </group>
+
+    <!-- slalom -->
+    <group if="$(eval arg('case')==4)">
+        <!-- goal point -->
+    </group>
+
+
+    <!-- pass the map file path to main launch file -->
+    <include file="$(find mpros_planner)/launch/vehicle.launch">
+        <arg name="map_file" value="$(arg map_file)" />
+    </include>
+
+</launch>

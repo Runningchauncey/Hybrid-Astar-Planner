@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mpros_smoother</name>
+  <version>1.0.0</version>
+  <description>The path smoother package</description>
+  <maintainer email="st169214@stud.uni-stuttgart.de">Changxuan Li</maintainer>
+  <license>TODO</license>
+  <author email="st169214@stud.uni-stuttgart.de">Changxuan Li</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>mpros_navigation_map</depend>
+  <depend>nav_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>tf2</depend>
+  <depend>mpros_utils</depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

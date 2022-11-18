@@ -1,0 +1,16 @@
+mpros:
+  smoother:    
+    enable_smoother: true # enable the smoother
+    smooth_weight: 100
+    curv_weight: 10.0 # 1.0
+    dist_weight: 0.1 #1.0
+    curv_first_deriv_weight: 1.0
+    max_solver_time_in_seconds: 1.0
+  optimizer:
+    debug: true
+    linear_solver: "SPARSE_NORMAL_CHOLESKY"
+    minimizer: "LINE_SEARCH"
+    max_iterations: 500
+    parameter_tolerance: 1.0e-15
+    function_tolerance: 1.0e-7
+    gradient_tolerance: 1.0e-10

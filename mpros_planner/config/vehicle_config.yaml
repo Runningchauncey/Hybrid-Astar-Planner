@@ -1,0 +1,21 @@
+mpros:
+  vehicle:
+    max_steering_angle: 0.35 # in rad
+    max_curvature: 0.125 # 1 / min_radius [1/m]
+    width: 2.0
+    wheelbase: 3.0
+    length: 4.2
+    center_to_rotate_center_longitudinal: 0.0 # rotate center offset from vehicle shape center, offset as following shows
+    #the footprint is assumed to be rectangle with following shape
+    # off-L/2 0   offset   L/2 + offset      
+    #    r    -   c        f
+    #    ------------------- w / 2
+    #    -    -   -        -
+    #    -    s----        -
+    #    -    -   -        -
+    #    ------------------- -w / 2
+    # c: lateral center line of the vehicle
+    # f: front border
+    # r: rear border
+    # s: rotate center; normal car on the center of rear axis, flexcar on the shape center
+
